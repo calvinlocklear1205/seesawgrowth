@@ -1,6 +1,6 @@
 # Current status
 
-*Last updated 2026-09-03.*
+*Last updated 2026-09-08.*
 
 > **The free offer was re-cut on 2026-08-31, after the team landed on its intent.** The page
 > now leads with the 45-minute session; shortly after the call the lead gets a report of the
@@ -80,7 +80,9 @@ actively trying to do less of it.
 | Internal AI-ops case study | Calvin | Not started |
 | Anthropic Select application | Calvin | Not started |
 | Monthly targeting playbook | Calvin | Defined, not yet running as a cadence |
+| Colorado ABM list (`11-colorado-targeting-report.md`) | Calvin | **Written 2026-09-08. 19 named accounts, Colorado referral partners, and an outreach angle the Texas list doesn't have: SB 26-189 replaced the Colorado AI Act on 2026-05-14 and its ADMT duties (notice, 30-day adverse-outcome explanation, meaningful human review) land 2027-01-01 as interface work. Top door is Revelstoke Capital (Denver healthcare PE) whose Revelstoke Frontier AI programme launched 2026-06. Built with web search only — Firecrawl/Exa/Perplexity/DataForSEO were unavailable** |
+| └ LinkedIn connection mapping | Calvin | **Blocked on Calvin's LinkedIn `Connections.csv` export (Settings → Data Privacy → Get a copy of your data). Scraping is off the table; the export is first-degree only, so second-degree paths need Sales Navigator or a manual pass. Script not yet written — see `11` §5** |
 | Referral systematization | Jeff | Not started — top 10 targets named |
-| Founder LinkedIn | Jeff + Calvin | Not started |
+| Founder LinkedIn | Jeff + Calvin | Not started — Colorado target list and three openers now drafted in `11` §4 |
 | Austin events & exec dinners | Jeff | Not started |
 | Fractional growth hire | Jeff | Not started |
