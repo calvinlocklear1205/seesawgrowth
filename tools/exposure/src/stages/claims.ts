@@ -65,6 +65,7 @@ const CATEGORY_LABEL: Record<string, string> = {
   home: 'homepage',
   help: 'help and support pages',
   careers: 'careers page',
+  roster: 'team page',
   integrations: 'integrations page',
   pricing: 'pricing and ordering pages',
   company: 'about page',
@@ -156,6 +157,30 @@ export function observedClaimsFrom(subject: SubjectArtifact, manualLimit = 5): C
         `a lot about which work is under strain.`,
       sources: [pageSource(careers.url, retrievedAt, careers.title)],
       confidence: 'medium',
+    });
+  }
+
+  /* The team that exists, which is a different claim from the work being hired
+     for and — unlike obs-hiring — one the client may read. On a territory
+     business the roster is the org chart: it names who covers what, and the
+     patches it lists are the shape of the operation. Client-facing, because
+     "your six territory managers cover these states" is a description of them
+     they will recognise, not a job advert quoted back. */
+  /* `?? []` because `revise` reads stage 01 off disk, and a run written before
+     this field existed has no rosterTitles on its pages. */
+  const roster = subject.pages.find((p) => !p.skipped && p.category === 'roster' && (p.rosterTitles ?? []).length > 0);
+  if (roster) {
+    const titles = (roster.rosterTitles ?? []).slice(0, 8).map((r) => sanitize(r));
+    claims.push({
+      id: 'obs-team',
+      tier: 'observed',
+      angle: 'context',
+      subject: 'self',
+      statement:
+        `Your team page names who covers what: ${titles.join('; ')}. Where the work is split ` +
+        `decides who a shared record has to serve.`,
+      sources: [pageSource(roster.url, retrievedAt, roster.title)],
+      confidence: 'high',
     });
   }
 
