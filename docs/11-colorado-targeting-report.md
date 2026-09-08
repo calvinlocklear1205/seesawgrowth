@@ -202,6 +202,79 @@ Delahanty and Lowder are the two most valuable LinkedIn targets in this document
 were hired to find work like this, they are new enough in seat to still be building a
 bench, and Frontier gives an opener that needs no pretext.
 
+### The warm one: Assured Senior Living (Denver metro)
+
+Introduced through an existing friendship with the founders, which makes it the only door
+here that needs no cold opener. It is also more useful than "a friend with a network" —
+read it as three separate assets.
+
+**What they are.** Residential small-home assisted living, memory care and **traumatic
+brain injury supportive living** across the Denver metro (Arvada, Castle Rock, Centennial,
+Denver, Englewood, Lakewood, Littleton, Parker). Founders and managing partners **Brian
+Turner** and **Francis LeGasse Jr.**; Stephanie Wood is COO. Turner's LinkedIn describes
+acquiring the business in December 2017. LeGasse's NIC speaker bio describes **30+ homes
+across Colorado**, 1:4 staffing ratios, and calls Assured **"Colorado's largest privately
+held residential assisted-living provider"** — that phrasing is his own bio, so treat it
+as a self-description rather than an audited fact, but the footprint is real.
+
+**Asset 1 — Francis LeGasse is borrowed distribution inside a friendship.** His NIC bio
+positions him as "a nationally recognized entrepreneur, thought-leader and changemaker in
+the senior-living and **AgeTech** ecosystem" — technology ecosystem, not just operations.
+He is a **podcast host** (per his own LinkedIn headline) and a frequent podcast guest: The
+Care Home Show, Scales of Success, CareSmartz360, Senior Living Marketing Perspectives,
+AgingIN. He is also listed as a **NIC Spring Conference speaker** — NIC being the
+seniors-housing capital and operator conference, which is the senior-living analogue of
+the operator channels in `12` §2.4. `(verify)` the conference date: the speaker page is
+titled 2026 but displays March 2027 in Dallas. Everything `12` says about renting
+audiences applies here, except this one is free and warm. **Ask for a podcast slot first**
+— it costs him nothing, and it is a low-stakes rehearsal for the paid Hospice News
+webinar.
+
+**Asset 2 — the vendor rolodex is, almost exactly, the target list in §2.** This is the
+specific synergy and it is better than a generic introduction. A 30+ home operator
+necessarily contracts with the vendor categories the wedge is built on:
+
+| What Assured buys or refers to | Who that is on this list |
+|---|---|
+| Long-term-care pharmacy | **Guardian Pharmacy of Colorado / of Denver** (Tier C) explicitly serves assisted living and SNF |
+| Hospice, for residents dying in place | **Care Synergy** affiliates (Tier A), **Bristol Hospice Denver** (Tier B) |
+| Home health and therapy | The Tier B/C home-health surface |
+| PACE coordination | **InnovAge** (Tier A), **Colorado PACE** (a Care Synergy affiliate) |
+
+So the highest-value question to ask is not "who do you know" but **"who are your
+pharmacy, hospice and home-health partners, and who is the right person at each?"** That
+converts a friendship into warm introductions to named Tier A/B accounts, with an operator
+vouching.
+
+**Asset 3 — he can solve the proof problem, which is worth more than the revenue.** The
+central weakness in `02` and `03` is that the case studies are nearly metric-free; the
+only hard numbers SeeSaw owns are HPS's 5x and Kountable's $8MM. Assured is **already
+demonstrably willing to be a public reference** — there is a published Serenity Engage
+success story about them, and Lument (the seniors-housing lender, ORIX) has run a feature
+on the company. A small, instrumented build here, measured honestly and published with
+Francis as the named reference, would be worth more than a year of pod revenue from a
+stranger, because it unblocks every other conversation in both targeting reports. A
+small-home operator running 1:4 ratios already measures things.
+
+**Asset 4 — convening power.** As the largest privately held residential AL operator in
+the state he is the natural **co-host for the Denver roundtable** in `12` §3.1, and a
+member of the Colorado assisted-living peer group. Co-hosting with him beats cold-inviting
+a room.
+
+**One thing to be careful about.** They may well have a genuine build need — 30+ scattered
+homes implies real problems in cross-site staffing, med-pass compliance, family
+communication and incident reporting — but **do not lead with that.** Converting a
+friendship into a sales call is the fastest way to lose both the deal and the network, and
+the network is the more valuable half. Lead with the introductions and the podcast, offer
+the `/one-thing` report on their own business as a gift, and let any build surface on its
+own terms.
+
+**A niche worth noting, not chasing.** The TBI supportive-living line — six addresses in
+Arvada plus one in Castle Rock — sits in a distinct network of its own (Brain Injury
+Alliance of Colorado, Medicaid HCBS waivers, neuro-rehab referrers) that almost no product
+company serves. Interesting, adjacent to the wedge, and worth a question over coffee. Not
+a workstream.
+
 ### Other sponsors (Denver)
 
 **Bow River Capital** — lower-middle-market, healthcare services and tech-enabled business
