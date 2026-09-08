@@ -35,7 +35,7 @@ servers were configured, even though all four API keys were present in the envir
 `.mcp.json` has been added to the repo root so future sessions get these tools
 automatically.
 
-Colorado is a much smaller pond than Texas: 24 accounts are worth naming, not 66. Padding
+Colorado is a much smaller pond than Texas: 25 accounts are worth naming, not 66. Padding
 to match the original's length would be the wrong instinct — at 4–6 qualified
 opportunities per quarter, 24 with real triggers is more inventory than the quarter needs.
 
@@ -77,7 +77,7 @@ unbuilt-workflow conversation naturally.
 confirm the reading before it anchors written outreach at volume, and never imply SeeSaw
 offers a legal opinion.
 
-## 2. Named accounts (24)
+## 2. Named accounts (25)
 
 Same scoring as `03`: **A** = strong 2025–26 trigger + ICP fit + proof-point match · **B**
 = ICP fit with a weaker or inferred trigger · **C** = watch. All HQs in Colorado unless
@@ -123,7 +123,7 @@ partner read is better for both. Swisslog carries one extra caution — it is th
 a global group, so product decisions may not sit in Broomfield. `(verify)` where its
 software roadmap is actually owned before investing in the pursuit.
 
-### Tier B (8) — nurture
+### Tier B (9) — nurture
 
 - **UCHealth** (Aurora) — **2026-02-24:** expanded its Abridge partnership to scale
   ambient AI documentation across **2,300+ clinical locations**. The largest named AI
@@ -147,6 +147,12 @@ software roadmap is actually owned before investing in the pursuit.
 - **Innovative Renal Care — Colorado** (Frederick, Longmont, Lakewood) — **already Tier C
   in `03`**. Same logic: confirmed Colorado dialysis clinics give a local angle on a
   national watch-list account. Maps to the Rendevor proof.
+- **Grit Digital Health** (Denver) — behavioral health and wellbeing product company spun
+  out of Cactus, with shipped products (Man Therapy, YOU at College, Nod, Operation
+  Veteran Strong). Design-and-technology positioning close to SeeSaw's own. `Est.` small,
+  so unlikely to buy a pod — value is as a **design partner, co-seller or
+  acquisition-adjacent relationship** in behavioral health, and as the clearest read on
+  how Cactus behaves in product.
 - **cliexa** (Denver) — digital intake and remote monitoring, bi-directional EMR
   integration. `Est.` ~24 employees (ZoomInfo) — too small for a $45k/mo pod. Best value
   is as a **design partner or co-seller** into their provider and payer base.
@@ -224,6 +230,17 @@ either.**
   `(verify)` whether they hold build capability in-house; only useful as partners if they
   don't. Given the two corrections above, verify by reading the services page, not a
   directory listing.
+- **SAGE Research + Design** — medical human factors and risk-management consulting, FDA
+  and MDR submission support. The one design-side candidate that passed the services-page
+  test: regulated-device research with no build arm. The Bold Insight analogue from `03`,
+  and the best design-partner prospect found in this pass. `(verify)` Colorado presence
+  and size.
+- **Humanice Research + Design** (`hmnx.co`) — human-centred design research, no
+  build-signal language anywhere on the site. Passed the test but appears very small.
+  `(verify)` whether there is enough there to be a channel.
+- **Checked and rejected as build-handoff partners:** MATTER (Denver — graphic design and
+  typography, not product), Weav Studio (Denver — cooperative strategy and equity
+  consulting, not product), The Creative Alliance (see above).
 - **Cloud Data Consulting** (Denver) — Snowflake and data engineering. The BlueYeti
   analogue: they build pipelines, SeeSaw builds the products on top. `(verify)` size and
   healthcare exposure.
@@ -232,6 +249,70 @@ either.**
 market has consolidated toward full-service. Assume a Colorado studio builds unless its
 own services page says otherwise, and verify every design-partner candidate by reading
 that page.
+
+### Marketing and brand agencies — mostly a trap, with one exception
+
+The build-partner-to-an-agency play is a real channel, but it is the wrong one here, and
+it is worth saying why rather than quietly leaving them off the list.
+
+**The budget is the wrong budget.** A brand or campaign agency's build handoffs are
+microsites, campaign landing pages and brand sites, paid out of a marketing budget at
+`Est.` $15–40k a piece, one-off. That is precisely the "absorbing endless small jobs"
+failure mode named in `00-status.md` as a thing SeeSaw is actively trying to do less of.
+Filling capacity with agency overflow is the opposite of 3 pods at $45k/mo, and the
+opportunity cost is the pursuit time it takes from §2. It also cuts against the
+positioning: a design-led AI product studio that subcontracts campaign builds trains the
+market to see it as an execution vendor.
+
+**The buyer is the wrong buyer.** These agencies sell to CMOs. The accounts in §2 are
+bought by product, technology, clinical informatics and care operations. A referral from a
+CMO's agency lands in the wrong org and has to be re-sold internally.
+
+**The exception worth one call: Cactus** (Denver). Genuine healthcare depth rather than a
+healthcare page — a distinct Cactus Health practice, MM&M Agency 100 listings in 2024 and
+2025, and real behavioral and mental-health work. But note what that depth produced: they
+created **Grit Digital Health**, a product company with shipped apps. So Cactus is not a
+design-only firm looking for an engineering partner; it has product capability and is
+**partly competitive**. Approach it as a peer and possible co-seller on healthcare
+pursuits too big for either firm alone, not as a referral source expecting handoffs — and
+name the overlap rather than discovering it in month three.
+
+**Karsh Hagan, Psyche Digital and the rest of the Denver agency set** are general brand
+and campaign shops without a specific healthcare practice. `(verify)` if one of them turns
+out to hold a large health-system account, but do not work the category on spec. The
+Colorado-specific healthcare marketing shops Exa surfaced — A-Train, Armada Medical, EOS
+Healthcare Marketing, Clyck — are small and provider-marketing focused; their clients buy
+patient acquisition, not care-operations software.
+
+### The better version of that idea: platform partner programmes
+
+This is the category to add instead, and it is stronger than the agency play on every
+axis.
+
+The platforms already deployed inside the Tier A accounts run formal partner programmes,
+and their implementation ecosystems have exact buyer overlap with SeeSaw and no build
+conflict — they configure and deploy, they do not build product.
+
+- **Innovaccer** is live at **both Carina Health Network** (1,200+ providers, 400 sites)
+  and **Colorado Access** (530k+ members). Its partner programme, built around the
+  *Gravity* platform, explicitly advertises "rapid prototyping to production" and — the
+  interesting part — **"monetise IP via marketplace,"** packaging a partner's proprietary
+  models and workflows for recurring revenue. That is not a referral channel, it is a
+  **product distribution channel**, and it maps directly onto the standing goal of
+  diversifying into owned SaaS rather than only selling pods.
+- **MatrixCare** is the post-acute EHR under most of the hospice and home-health surface
+  in §2, and runs a partner marketplace of integrated solutions. **nVoq already sits in
+  it** — which is the cleanest available illustration of the shape: a Colorado company
+  monetising a workflow layer on top of the EHR the operators already run.
+- **Epic** implementation consultancies serving Colorado health systems are the third leg,
+  though the buyer is further from the wedge and the firms are mostly national.
+
+**Why this beats the agency channel:** the buyer overlap is exact rather than adjacent,
+the firms cannot compete on build, the platform vendor has a commercial interest in a
+partner filling gaps it will not build itself, and a marketplace listing is a durable
+asset rather than a one-off referral. `(verify)` the specific Rocky Mountain
+implementation partners for each platform — the vendor partner directories are the place
+to start, and that verification is the first concrete task in this category.
 
 ### Ecosystem and community
 
@@ -284,7 +365,7 @@ shared-services organisation rather than the individual affiliates.
 
 ### Volume discipline
 
-Four to six qualified opportunities per quarter, against a 24-account list, means roughly
+Four to six qualified opportunities per quarter, against a 25-account list, means roughly
 **15–25 genuinely warm conversations per quarter** — not 500 connection requests. Being
 visibly selective is part of the positioning; a design-led studio that mass-mails
 contradicts its own pitch. Two to four new conversations a week, personally written, is
@@ -312,7 +393,7 @@ arrives in minutes to a day and carries **First Name, Last Name, Company, Positi
 Connected On** (email only where the connection allowed it). That is your first-degree
 graph, legitimately obtained, and it is enough to do the real work:
 
-- fuzzy-match `Company` against the 24 accounts and the partner list, handling the aliases
+- fuzzy-match `Company` against the 25 accounts and the partner list, handling the aliases
   that will otherwise wreck the join (DispatchHealth/Dispatch Health; Care Synergy vs. its
   seven affiliate names; Revelstoke portfolio companies listed under their own names)
 - score `Position` against the title ladder in §4
@@ -327,7 +408,7 @@ ranked list.
 who at Strive Health is connected to people you know — that is second-degree data and it
 is not in any export. Options, in order of cost: a **Sales Navigator** seat (account maps
 and lead lists, with CSV export on some tiers) is the real answer if this becomes a
-standing motion; failing that, 24 accounts is small enough to check second-degree paths by
+standing motion; failing that, 25 accounts is small enough to check second-degree paths by
 hand on the ones that survive first-degree scoring — roughly an hour.
 
 **What I need from you:** the `Connections.csv`, and a note on whether Jeff's connections
