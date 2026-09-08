@@ -37,6 +37,7 @@ Two standing caveats before acting on anything here:
 | [docs/08-website-build-runbook.md](docs/08-website-build-runbook.md) | Ten steps to ship the messaging, CTA, qualifier, and scheduler — stack choices, endpoint architecture, 20-case test matrix | 2026-08-17 |
 | [docs/09-program-outline.md](docs/09-program-outline.md) | **Start here for the build.** The whole Reality Check as 11 discrete projects with owners, outputs, done-whens, and sequence | 2026-08-17 |
 | [docs/11-colorado-targeting-report.md](docs/11-colorado-targeting-report.md) | Colorado-only companion to `03` — 25 named accounts, Colorado referral partners and sponsors, the SB 26-189 outreach angle, and the LinkedIn connection-mapping plan | 2026-09-08 |
+| [docs/12-content-and-events-plan.md](docs/12-content-and-events-plan.md) | Content and events that book meetings — borrowed distribution first (trade-press webinars, Prime Health, conference speaking), roundtables, what to skip, and why not to give away build hours | 2026-09-08 |
 
 Read them in that order. `00` tells you what's live, `01` is the decision surface, `02` and
 `03` are the evidence base you go to when a recommendation needs defending, and `09` is where
