@@ -428,6 +428,8 @@ DO NOT DIAGNOSE WHAT IS WRONG WITH THEM. Read back what you think you know about
   - Praising one thing by implying another is weak. "You win on judgement rather than on the quality of an answer" tells a professional-services firm their answers are not the good part. Say what they are good at; do not build it out of a contrast.
   - Anything that reads as an audit of their failings. They asked for ideas, not a report card.
 
+INTERNAL SIGNALS. A claim marked internal=yes is research for us, not for them: it is kept out of the register the client reads, so citing it points them at a row that is not there. Let it shape your judgement; do not cite it, and do not quote a job advert or a careers page back at anyone.
+
 CHECK WHAT THEY ALREADY SELL. Before recommending anything, look at what is already in their product line and say how yours differs, or drop it. A real draft recommended building a structured assessment to a firm whose own funnel is a free assessment they have been running for years. Recommending someone's own product back to them ends the conversation.
 
   telling  "Prior authorization is the one to price first."
@@ -535,6 +537,11 @@ export function buildUserPrompt(
       `id=${c.id}`,
       `tier=${c.tier}`,
       `angle=${c.angle}`,
+      /* The model could not see this before, so it could not comply: the
+         adventurelabworks.com report cited obs-hiring a dozen times in prose
+         the client reads, while the register printed that same claim under
+         "Research signals, not for the client". */
+      c.internalOnly ? 'internal=yes' : null,
       c.peerName ? `peer=${c.peerName}` : null,
       c.observedAt ? `dated=${c.observedAt}` : null,
     ].filter(Boolean);

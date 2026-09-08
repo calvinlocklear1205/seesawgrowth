@@ -2713,3 +2713,206 @@ test('stage 02: high confidence now means a person named the peer', () => {
   assert.equal(byDomain['named-by-hand.com'], 'high');
   assert.equal(byDomain['rival-distribution.com'], 'medium', 'the search proposed it and the filters cleared it: that is medium, and there is no higher');
 });
+
+/* ===========================================================================
+   The adventurelabworks.com run of 2026-09-05, which got both of these wrong.
+   ======================================================================== */
+
+import {
+  assessCategoryQuery,
+  categorize,
+  categorizeLabel,
+  looksLikeRoster,
+  navLinksFrom,
+  selectPages,
+} from './stages/01-subject.ts';
+
+test('stage 01: a similarity sentence is not a category and does not get searched', () => {
+  /* The live failure. No self-description on the site, so the fallback became
+     the category: Exa returned similarground.org and similarinc.com, and the
+     demand pull priced the word "similar" at 90,500 US searches a month. */
+  const fallback = assessCategoryQuery('companies similar to adventurelabworks.com', 'adventurelabworks.com');
+  assert.equal(fallback.usable, false);
+  assert.match(fallback.reason ?? '', /similarity/);
+
+  /* A person can type the same mistake, and it costs the same. */
+  assert.equal(assessCategoryQuery('Companies like Acme Corp', 'acme.com').usable, false);
+  assert.equal(assessCategoryQuery('competitors of adventurelabworks', 'adventurelabworks.com').usable, false);
+
+  /* Nothing but the subject's own identity, with the brand written as prose. */
+  assert.equal(assessCategoryQuery('Adventure Labworks, adventurelabworks.com', 'adventurelabworks.com').usable, false);
+
+  /* And the shape that works stays usable. */
+  const good = assessCategoryQuery(
+    'Outdoor and adventure industry manufacturers’ representative agency selling brand lines ' +
+      'into specialty retail dealers across a regional territory',
+    'adventurelabworks.com'
+  );
+  assert.equal(good.usable, true, good.reason);
+});
+
+test('stage 01: a site with no self-description reports that, rather than inventing one', () => {
+  /* adventurelabworks.com: <title>Adventure Labworks</title> and an empty
+     meta description. Every candidate is under the length floor. */
+  const thin = [
+    {
+      url: 'https://www.adventurelabworks.com',
+      category: 'home' as const,
+      title: 'Adventure Labworks',
+      description: '',
+      wordCount: 300,
+      manualWorkQuotes: [],
+      systemsNamed: [],
+      aiTermsFound: [],
+      roleLines: [],
+      rosterTitles: [],
+    },
+  ];
+  const derived = deriveCategoryQuery(thin, 'adventurelabworks.com');
+  assert.equal(derived.usable, false, 'the fallback must never be presented as usable');
+  assert.match(derived.derivedFrom, /fallback/);
+});
+
+test('stage 01: /team is a roster, not a job board', () => {
+  /* `team` sat in the careers keyword list, so a page of named employees was
+     read as a page of open roles, and every "why now" in the report rested on
+     hiring strain that did not exist. */
+  const hit = categorize({ url: 'https://www.adventurelabworks.com/team' });
+  assert.equal(hit?.category, 'roster');
+  /* A real job board still lands in careers. */
+  assert.equal(categorize({ url: 'https://acme.com/careers' })?.category, 'careers');
+  assert.equal(categorize({ url: 'https://acme.com/open-positions' })?.category, 'careers');
+});
+
+test('stage 01: a careers path full of biographies is reclassified by its content', () => {
+  /* Verbatim shape from adventurelabworks.com/team, read 2026-09-08. */
+  const roster =
+    'The Team\n\n' +
+    'Travis Rosen\n\nAgency Principal. I began my career in the Outdoor Sporting Goods industry at 13, ' +
+    'working as a shop assistant at a local bike retailer in Boulder, Colorado. Outside of work, I am a ' +
+    'proud father of two daughters and enjoy spending time with my wife.\n\n' +
+    'Dave Klopp\n\nTerritory Manager: MT & Northern ID. I grew up enjoying the outdoors and have always ' +
+    'spent my time pursuing any outdoor adventure I could find.\n\n' +
+    'George Knaggs\n\nTerritory Manager: CO, NM, KS, NE & MO. I came to Colorado to attend the University ' +
+    'of Colorado and I live in Louisville with my wife.\n';
+  assert.equal(looksLikeRoster(roster), true);
+
+  const signals = extractSignals(
+    { url: 'https://www.adventurelabworks.com/join-our-team', category: 'careers', weight: 9, matched: 'path:careers' },
+    roster
+  );
+  assert.equal(signals.category, 'roster', 'the content overrules the path');
+  assert.deepEqual(signals.roleLines, [], 'nothing here is a role we are hiring for');
+  assert.ok(
+    signals.rosterTitles.some((t) => /Territory Manager: MT & Northern ID/.test(t)),
+    `the titles are kept, as titles: ${JSON.stringify(signals.rosterTitles)}`
+  );
+});
+
+test('stage 01: a real job advert is not mistaken for a roster', () => {
+  const advert =
+    'Careers at Acme. We are hiring a Territory Manager for the Rockies. Full-time, salary range ' +
+    '$70,000 to $85,000. Apply now with your resume. Acme is an equal opportunity employer.';
+  assert.equal(looksLikeRoster(advert), false);
+
+  const signals = extractSignals(
+    { url: 'https://acme.com/careers', category: 'careers', weight: 9, matched: 'path:careers' },
+    advert
+  );
+  assert.equal(signals.category, 'careers');
+  assert.ok(signals.roleLines.length > 0, 'a job advert still yields role lines');
+  assert.deepEqual(signals.rosterTitles, []);
+});
+
+test('stage 01: the nav rescues pages whose slugs were never renamed', () => {
+  /* Verbatim from adventurelabworks.com, read 2026-09-08: a Squarespace site
+     whose content pages are /new-page-N. Path rules score every one of them as
+     nothing, and the run missed "eight professional sales representatives
+     covering fifteen states" — the best sentence on the site — as a result. */
+  const homepage = [
+    '[Home](https://www.adventurelabworks.com/)',
+    '[Values](https://www.adventurelabworks.com/new-page-1)',
+    '[About](https://www.adventurelabworks.com/new-page-3)',
+    '[Territory](https://www.adventurelabworks.com/territory)',
+    '[Our Brands](https://www.adventurelabworks.com/ourbrands)',
+    '[Team](https://www.adventurelabworks.com/team)',
+    '[Affiliations](https://www.adventurelabworks.com/new-page-46)',
+    '[Contact](https://www.adventurelabworks.com/new-page)',
+    '[Instagram](https://www.instagram.com/adventurelabworks)',
+  ].join('\n\n');
+
+  const hints = navLinksFrom(homepage, 'adventurelabworks.com');
+  /* Seven: the nine links less the off-domain one, and less the nav's own link
+     back to the homepage, which is always selected anyway. */
+  assert.equal(hints.length, 7, JSON.stringify(hints.map((h) => h.label)));
+  assert.ok(!hints.some((h) => /instagram/.test(h.url)), 'an off-domain link is not ours to crawl');
+  assert.ok(!hints.some((h) => h.label === 'Home'), 'the homepage needs no hint');
+
+  assert.equal(categorizeLabel('About')?.category, 'company');
+  assert.equal(categorizeLabel('Our Brands')?.category, 'product');
+  assert.equal(categorizeLabel('Team')?.category, 'roster');
+  assert.equal(categorizeLabel('Values'), null, 'no rule matches, and that is fine');
+
+  const selected = selectPages(
+    [{ url: 'https://www.adventurelabworks.com/' }, { url: 'https://www.adventurelabworks.com/new-page-3' }],
+    'adventurelabworks.com',
+    12,
+    hints
+  );
+  const byPath = Object.fromEntries(selected.map((p) => [new URL(p.url).pathname, p]));
+  assert.equal(byPath['/new-page-3']?.category, 'company', 'the About page, found by its label');
+  assert.equal(byPath['/ourbrands']?.category, 'product', 'a URL the map never returned');
+  assert.equal(byPath['/team']?.category, 'roster');
+  assert.ok(byPath['/territory'], 'an unmatched nav label still earns a look');
+  assert.match(byPath['/territory'].matched, /^nav:/);
+});
+
+test('stage 01: nav hints cannot displace an ops-describing page', () => {
+  /* The nav is a discovery aid, not a reordering of the strategy: a help
+     centre still outranks whatever the header happens to link. */
+  const selected = selectPages(
+    [{ url: 'https://acme.com/' }, { url: 'https://acme.com/help/how-we-work' }],
+    'acme.com',
+    2,
+    [
+      { url: 'https://acme.com/new-page-9', label: 'Our Story' },
+      { url: 'https://acme.com/new-page-8', label: 'Newsroom' },
+    ]
+  );
+  assert.deepEqual(
+    selected.map((p) => p.category),
+    ['home', 'help']
+  );
+});
+
+test('stage 07: a research signal cannot be cited in what we hand over', () => {
+  /* The adventurelabworks.com report cited obs-hiring — a claim it printed
+     under "Research signals, not for the client" — a dozen times in the prose
+     the client reads, so every reference pointed at a row that was not in
+     their register. The model was never told which claims those were. */
+  const claims: Claim[] = [
+    ...SEVEN_CLAIMS,
+    {
+      id: 'obs-hiring',
+      tier: 'observed',
+      angle: 'opportunity',
+      subject: 'self',
+      internalOnly: true,
+      statement: 'Your careers page lists these roles: Territory Manager.',
+      sources: [{ url: 'https://example.test/careers', title: 'Careers', retrievedAt: '2026-08-30T00:00:00Z' }],
+    },
+  ];
+  assert.deepEqual(validateOneThing(goodOneThing(), claims, SEVEN_FACTS), [], 'the clean draft is still clean');
+
+  const x = goodOneThing();
+  x.pick.why += ' The work is plainly under strain (obs-hiring).';
+  const problems = validateOneThing(x, claims, SEVEN_FACTS);
+  assert.equal(problems.length, 1, JSON.stringify(problems));
+  assert.equal(problems[0].code, 'internal_only_citation');
+  assert.match(problems[0].detail, /obs-hiring/);
+
+  /* And through a structured claimIds array, not just prose. */
+  const y = goodOneThing();
+  y.ideas[0].claimIds.push('obs-hiring');
+  assert.equal(validateOneThing(y, claims, SEVEN_FACTS)[0]?.code, 'internal_only_citation');
+});

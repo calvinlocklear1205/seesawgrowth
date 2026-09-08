@@ -35,6 +35,7 @@ export type PageCategory =
   | 'home'
   | 'help'
   | 'careers'
+  | 'roster'
   | 'integrations'
   | 'pricing'
   | 'company'
@@ -57,7 +58,28 @@ const CATEGORY_RULES: { category: PageCategory; weight: number; keywords: string
     category: 'careers',
     weight: 9,
     cap: 3,
-    keywords: ['career', 'careers', 'jobs', 'job', 'join-us', 'join', 'work-with-us', 'hiring', 'internship', 'internships', 'employment', 'openings', 'positions', 'team'],
+    /* `team` was in this list and cost us a whole report. adventurelabworks.com
+       (2026-09-05) publishes /team, a roster of six named territory managers
+       with first-person biographies; it matched here, its card subtitles were
+       harvested as `roleLines`, and obs-hiring told the reader "your careers
+       page lists these roles" about their own staff. Every "why now" in that
+       run rested on hiring strain that did not exist — the owner had in fact
+       said he could not afford to hire. A roster is not a job board: it gets
+       its own category below, and `looksLikeRoster` catches the pages whose
+       path lies. */
+    keywords: ['career', 'careers', 'jobs', 'job', 'join-us', 'join', 'work-with-us', 'hiring', 'internship', 'internships', 'employment', 'openings', 'positions'],
+  },
+  {
+    /* Who works here and what they cover. Worth reading — on a territory
+       business the roster *is* the org chart, and it names the patches — but it
+       says nothing about what a company is hiring for. Ranked below careers so
+       a site with both still spends its careers slots first, and above company
+       because named people beat an About page for understanding the shape of
+       the operation. */
+    category: 'roster',
+    weight: 6,
+    cap: 2,
+    keywords: ['team', 'our-team', 'teams', 'meet-the-team', 'people', 'staff', 'leadership', 'reps'],
   },
   {
     category: 'integrations',
@@ -75,15 +97,34 @@ const CATEGORY_RULES: { category: PageCategory; weight: number; keywords: string
     category: 'company',
     weight: 5,
     cap: 3,
-    keywords: ['about', 'about-us', 'company', 'company-profile', 'who-we-are', 'our-story', 'leadership', 'mission', 'history', 'contact', 'locations', 'compliance', 'quality', 'certifications'],
+    keywords: ['about', 'about-us', 'company', 'company-profile', 'who-we-are', 'our-story', 'mission', 'history', 'contact', 'locations', 'compliance', 'quality', 'certifications'],
   },
   {
     category: 'product',
     weight: 3,
     cap: 3,
-    keywords: ['products', 'services', 'solutions', 'capabilities', 'what-we-do', 'offerings', 'catalog', 'industries'],
+    /* `brands` and `lines`: a distributor or a rep agency sells other people's
+       products, and their catalogue page is called Our Brands. */
+    keywords: ['products', 'services', 'solutions', 'capabilities', 'what-we-do', 'offerings', 'catalog', 'industries', 'brands', 'lines'],
   },
 ];
+
+/**
+ * How many pages the navigation may contribute on its own, having matched none
+ * of the category rules. Enough to cover a small site's own idea of what
+ * matters, not enough for a link farm to eat the page budget.
+ */
+const NAV_OTHER_CAP = 4;
+
+/** Words that make a line a candidate job title, wherever they appear in it. */
+const TITLE_WORD =
+  /\b(manager|director|specialist|coordinator|representative|analyst|engineer|developer|nurse|pharmacist|technician|associate|assistant|clerk|buyer|planner|supervisor|intern|internship|sales|account executive|principal)\b/i;
+
+/** A link in the homepage's own navigation, with the words they gave it. */
+export interface NavHint {
+  url: string;
+  label: string;
+}
 
 /** URLs that are never worth a credit. */
 const SKIP_PATTERNS = [
@@ -145,10 +186,71 @@ export function categorize(link: FirecrawlLink): { category: PageCategory; weigh
 }
 
 /**
+ * Categorise a page by the words the company put in its own navigation.
+ *
+ * WHY THIS EXISTS. Path-driven selection assumes the path says something, and
+ * a Squarespace or Wix site whose slugs were never renamed says nothing at all.
+ * On adventurelabworks.com (read 2026-09-05) the nav pointed at /new-page,
+ * /new-page-1, /new-page-3 and /new-page-46 — Contact, Values, About and
+ * Affiliations. `categorize` returned null for every one of them, so they were
+ * dropped from the candidate pool entirely, and the run missed the best fact on
+ * the site: "the team consists of eight professional sales representatives
+ * covering fifteen states", in the owner's own voice, on /new-page-3. Whatever
+ * a company links in its own header is, by definition, what it thinks matters.
+ */
+export function categorizeLabel(label: string): { category: PageCategory; weight: number; matched: string } | null {
+  const tokens = label.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  if (tokens.length === 0) return null;
+  const joined = tokens.join('-');
+  for (const rule of CATEGORY_RULES) {
+    const hit = rule.keywords.find((k) => tokens.includes(k) || k === joined);
+    if (hit) return { category: rule.category, weight: rule.weight, matched: `nav:${hit}` };
+  }
+  return null;
+}
+
+/**
+ * Same-domain links in document order, with their anchor text. The navigation
+ * is the first thing in a scraped page, so the first handful of unique links
+ * are the header — and taking them in order means the mobile and desktop copies
+ * of one menu collapse into a single entry.
+ */
+export function navLinksFrom(markdown: string, domain: string, limit = 20): NavHint[] {
+  const found: NavHint[] = [];
+  const seen = new Set<string>();
+  for (const m of markdown.matchAll(/\[([^\]\n]{1,60})\]\((https?:\/\/[^)\s]+)\)/g)) {
+    const label = m[1].replace(/[*_`!]/g, '').trim();
+    /* Fragments off, and the trailing slash with them. A hero link labelled
+       "Welcome" pointing at /#intro is the homepage, and without this it came
+       back as a second, separate page to scrape. */
+    const url = m[2].replace(/[).,;]+$/, '').replace(/#.*$/, '').replace(/\/$/, '');
+    if (label.length < 2) continue;
+    if (!/^https?:\/\/[^/]+\/.+/.test(url)) continue;
+    if (registrableDomain(url) !== domain) continue;
+    const key = url.replace(/\/$/, '').toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    found.push({ url, label });
+    if (found.length >= limit) break;
+  }
+  return found;
+}
+
+/**
  * Choose pages to scrape. Homepage always, then by weight, with a per-category
  * cap so one sprawling section can't consume the whole page budget.
+ *
+ * `navHints` come from the homepage's own menu (see `navLinksFrom`). They can
+ * add URLs the path rules scored as nothing, and they win over a path guess
+ * when the label is the stronger signal — a link labelled About pointing at
+ * /new-page-3 is an about page whatever its slug says.
  */
-export function selectPages(links: FirecrawlLink[], domain: string, limit: number): SelectedPage[] {
+export function selectPages(
+  links: FirecrawlLink[],
+  domain: string,
+  limit: number,
+  navHints: NavHint[] = []
+): SelectedPage[] {
   const selected: SelectedPage[] = [];
   const counts = new Map<PageCategory, number>();
   const seen = new Set<string>();
@@ -166,16 +268,53 @@ export function selectPages(links: FirecrawlLink[], domain: string, limit: numbe
     seen.add(home.url.replace(/\/$/, ''));
   }
 
-  const scored = links
+  /* Nav hints, keyed the same way `seen` is. A label that matches no rule is
+     still kept, at a weight below every category, so it fills leftover budget
+     rather than displacing an ops-describing page. */
+  type Hit = { category: PageCategory; weight: number; matched: string };
+  const hints = new Map<string, Hit>();
+  for (const hint of navHints) {
+    const key = hint.url.replace(/\/$/, '');
+    if (seen.has(key)) continue;
+    if (SKIP_PATTERNS.some((p) => p.test(hint.url))) continue;
+    hints.set(
+      key,
+      categorizeLabel(hint.label) ?? {
+        category: 'other',
+        weight: 2,
+        matched: `nav:"${hint.label.slice(0, 30)}"`,
+      }
+    );
+  }
+
+  /* URLs the map never returned, or returned and the path rules scored as
+     nothing, still reachable from the header. */
+  const pool: FirecrawlLink[] = [...links];
+  const inPool = new Set(links.map((l) => l.url.replace(/\/$/, '')));
+  for (const key of hints.keys()) {
+    if (!inPool.has(key)) pool.push({ url: key });
+  }
+
+  const scored = pool
     .filter((l) => !seen.has(l.url.replace(/\/$/, '')))
     .filter((l) => !SKIP_PATTERNS.some((p) => p.test(l.url)))
-    .map((l) => ({ link: l, hit: categorize(l) }))
-    .filter((x): x is { link: FirecrawlLink; hit: NonNullable<ReturnType<typeof categorize>> } => x.hit !== null)
+    .map((l) => {
+      const byPath = categorize(l);
+      const byNav = hints.get(l.url.replace(/\/$/, '')) ?? null;
+      /* Whichever signal is stronger. On a tie the path wins, which keeps every
+         pre-nav run's selection identical. */
+      const hit = !byNav ? byPath : !byPath ? byNav : byNav.weight > byPath.weight ? byNav : byPath;
+      return { link: l, hit };
+    })
+    .filter((x): x is { link: FirecrawlLink; hit: Hit } => x.hit !== null)
     .sort((a, b) => b.hit.weight - a.hit.weight || a.link.url.length - b.link.url.length);
 
   for (const { link, hit } of scored) {
     if (selected.length >= limit) break;
-    const cap = CATEGORY_RULES.find((r) => r.category === hit.category)?.cap ?? 2;
+    const cap =
+      hit.category === 'other'
+        ? NAV_OTHER_CAP
+        : CATEGORY_RULES.find((r) => r.category === hit.category)?.cap ?? 2;
     const used = counts.get(hit.category) ?? 0;
     if (used >= cap) continue;
     counts.set(hit.category, used + 1);
@@ -237,6 +376,12 @@ export interface PageSignals {
   aiTermsFound: string[];
   /** Careers pages only: lines that look like a role listing. */
   roleLines: string[];
+  /**
+   * Roster pages only: the titles the people on the page carry. The same lines
+   * `roleLines` would have caught, kept under a name that says what they are —
+   * a description of the team that exists, not of work being hired for.
+   */
+  rosterTitles: string[];
   skipped?: string;
 }
 
@@ -383,36 +528,104 @@ export function extractSignals(
 
   const aiTermsFound = AI_TERMS.filter((t) => lower.includes(t)).map((t) => t.trim());
 
-  const roleLines =
-    page.category === 'careers'
-      ? [...new Set(
-          markdown
-            // Same link and image stripping as the prose above: the live run
-            // put "(Talk to a Care Specialist)(https://…/request-care/)" into
-            // the report as a job title.
-            .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
-            .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
-            .replace(/https?:\/\/\S+/g, ' ')
-            .split('\n')
-            .map((l) => l.replace(/^[\s\-*#>|]+/, '').trim())
-            .filter((l) => l.length > 3 && l.length < 90)
-            .filter((l) =>
-              /\b(manager|director|specialist|coordinator|representative|analyst|engineer|developer|nurse|pharmacist|technician|associate|assistant|clerk|buyer|planner|supervisor|intern|internship|sales|account executive)\b/i.test(l)
-            )
-        )]
-      : [];
+  /* A path guess is not enough to call something a job board, because the
+     inference drawn from one ("this work is under strain") is load-bearing
+     across every idea the report weighs. So the page has to read like a job
+     board too: /careers-and-culture and /join-our-team are as often rosters as
+     adverts. Reclassified here rather than in `categorize`, because only the
+     scraped text can tell them apart. */
+  const category: PageCategory =
+    page.category === 'careers' && looksLikeRoster(text) ? 'roster' : page.category;
+
+  const titleLines = [...new Set(
+    markdown
+      // Same link and image stripping as the prose above: the live run
+      // put "(Talk to a Care Specialist)(https://…/request-care/)" into
+      // the report as a job title.
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+      .replace(/https?:\/\/\S+/g, ' ')
+      .split('\n')
+      .map((l) => l.replace(/^[\s\-*#>|]+/, '').trim())
+      /* A title and the prose under it often arrive as one line — a roster
+         card's subtitle runs straight into the biography, and a job advert's
+         heading into the description. Split the long ones into sentences and
+         keep whichever sentence is the title, rather than dropping the line
+         for being too long: "Territory Manager: MT & Northern ID. I grew up
+         enjoying the outdoors…" is a title with a life story attached. */
+      .flatMap((l) => (l.length < 90 ? [l] : l.split(/(?<=[.!?])\s+/)))
+      .map((l) => l.replace(/^[\s*_]+|[\s*_]+$/g, '').trim())
+      .filter((l) => l.length > 3 && l.length < 90)
+      .filter((l) => TITLE_WORD.test(l))
+  )];
 
   return {
     url: page.url,
-    category: page.category,
+    category,
     title,
     description,
     wordCount: text.split(/\s+/).filter(Boolean).length,
     manualWorkQuotes,
     systemsNamed,
     aiTermsFound,
-    roleLines,
+    roleLines: category === 'careers' ? titleLines : [],
+    /* Titles only, not every sentence that happens to contain the word
+       "manager". A roster claim is client-facing — it reads their own team
+       back to them — so "For several years, I worked in Bicycle Retail as a
+       manager and buyer" appearing in a list of job titles is the kind of
+       thing that ends a first call. `roleLines` keeps the looser filter it
+       was tested against on live careers pages. */
+    rosterTitles: category === 'roster' ? titleLines.filter(looksLikeTitle) : [],
   };
+}
+
+/**
+ * Is this line a job title, or a sentence with a job title in it?
+ *
+ * Three tests, all learned from adventurelabworks.com/team: no first-person
+ * pronoun, because nobody writes their own title in the first person; short,
+ * because a title is a phrase and not a clause; and the role word near the
+ * front, because "Territory Manager: MT & Northern ID" leads with it while a
+ * biography buries it.
+ */
+export function looksLikeTitle(line: string): boolean {
+  if (/\b(i|my|me|we|our|us|he|she|they|his|her|their)\b/i.test(line)) return false;
+  const words = line.split(/\s+/).filter(Boolean);
+  if (words.length > 10) return false;
+  return TITLE_WORD.test(words.slice(0, 4).join(' '));
+}
+
+/**
+ * Does this page describe people who work here, rather than work being hired
+ * for? Two signals, either of which is enough, both taken from the live
+ * adventurelabworks.com/team page:
+ *
+ *   1. First-person past-tense biography. "I grew up", "I began my career",
+ *      "my wife" — nobody writes a job advert that way.
+ *   2. A title bound to a named person, repeatedly: "Dave Klopp / Territory
+ *      Manager: MT & Northern ID" three times over is a roster.
+ *
+ * The opposite signals — an apply button, an employment-type line, a salary
+ * range — are what a real job board carries, and they veto the reclassification
+ * so that a careers page with staff testimonials on it stays a careers page.
+ */
+export function looksLikeRoster(text: string): boolean {
+  const hiringLanguage =
+    /\b(apply now|apply here|apply today|how to apply|submit your (resume|résumé|cv|application)|open (position|role|vacanc)|current (opening|vacanc)|we(?:'| a)re hiring|now hiring|full[- ]time|part[- ]time|salary range|pay range|job description|equal opportunity employer)\b/i;
+  if (hiringLanguage.test(text)) return false;
+
+  const firstPersonBio =
+    (text.match(/\bI\s+(grew|was born|was raised|began|started|moved|joined|have (?:been|lived|always)|live|enjoy|spent)\b/g) ?? []).length +
+    (text.match(/\bmy\s+(wife|husband|partner|family|kids|children|daughters?|sons?|dog|hometown|career|free time)\b/gi) ?? []).length;
+  if (firstPersonBio >= 2) return true;
+
+  /* A person's name immediately followed by a job title. Two or more of them
+     and the page is a list of people, whatever its path says. */
+  const namedTitles =
+    text.match(
+      /\b[A-Z][a-z]+\s+[A-Z][a-z]+\s*[-–—:|]?\s*(?:Territory\s+Manager|Sales\s+(?:Manager|Representative|Rep)|Account\s+(?:Manager|Executive)|Managing\s+Director|Agency\s+Principal|Principal|President|Owner|Founder|Partner|Director|Manager)\b/g
+    ) ?? [];
+  return namedTitles.length >= 2;
 }
 
 /* -- redirects ----------------------------------------------------------- */
@@ -485,7 +698,7 @@ export function deriveCategoryQuery(
   signals: PageSignals[],
   domain: string,
   alsoStrip: string[] = []
-): { query: string; seedText: string; derivedFrom: string } {
+): { query: string; seedText: string; derivedFrom: string; usable: boolean } {
   /**
    * Contact-page boilerplate is not a category description.
    *
@@ -595,19 +808,85 @@ export function deriveCategoryQuery(
   for (const candidate of candidates) {
     const stripped = strip(candidate.text);
     if (stripped.length >= 40) {
+      const query = stripped.slice(0, 300);
+      /* Checked even though it came from their own page: a homepage whose
+         description is the company name and a tagline strips down to nothing
+         worth searching with. */
+      const verdict = assessCategoryQuery(query, domain);
       return {
-        query: stripped.slice(0, 300),
+        query,
         seedText: firstSentences(stripped),
-        derivedFrom: candidate.from,
+        derivedFrom: verdict.usable ? candidate.from : `${candidate.from} — unusable: ${verdict.reason}`,
+        usable: verdict.usable,
       };
     }
   }
+  /**
+   * No self-description anywhere on the pages we read.
+   *
+   * This string used to be returned as if it were a category, and on
+   * adventurelabworks.com (2026-09-05) it was: their homepage title is two
+   * words and their meta description is empty, so "companies similar to
+   * adventurelabworks.com" went to Exa, which returned similarground.org and
+   * similarinc.com, and to DataForSEO, which duly priced the search term
+   * "similar" — 90,500 US searches a month, up 57.2%. Four of the six claims
+   * in that report were about the word "similar", and both stages billed.
+   *
+   * It is still returned, because the note is worth printing. `usable: false`
+   * is what stops anyone spending on it.
+   */
   const fallback = `companies similar to ${domain}`;
   return {
     query: fallback,
     seedText: fallback,
     derivedFrom: 'fallback — no usable self-description found on the site',
+    usable: false,
   };
+}
+
+/**
+ * Is this string a description of a category, or a description of the subject?
+ *
+ * Applied to a supplied `--category` as well as a derived one, because the
+ * failure is just as expensive when a person types it: peer discovery searches
+ * with whatever it is given, and the demand pull seeds keywords from the same
+ * text. Anything self-referential — "companies similar to x.com", "competitors
+ * of x", a bare domain or brand name — retrieves the subject and pages about
+ * the subject, which is the one thing stage 02 exists to avoid.
+ *
+ * Deliberately narrow. It rejects strings that are *about* similarity or
+ * identity rather than trying to judge whether a category is a good one; a
+ * mediocre category still beats a stopped run.
+ */
+export function assessCategoryQuery(query: string, domain: string): { usable: boolean; reason?: string } {
+  const text = query.trim();
+  if (text.length < 20) return { usable: false, reason: 'too short to describe a category' };
+
+  if (/^(companies|firms|businesses|organi[sz]ations)\s+(similar\s+to|like)\b/i.test(text)) {
+    return { usable: false, reason: 'names similarity rather than a category' };
+  }
+  if (/^(competitors?|alternatives?|rivals)\s+(to|of|for)\b/i.test(text)) {
+    return { usable: false, reason: 'names competition rather than a category' };
+  }
+
+  /* What is left once the subject's own identity is removed. A category query
+     that is nothing but the company's name and a domain describes one company,
+     and Exa will find that company. */
+  const label = domain.split('.')[0] ?? '';
+  const pattern = brandPattern(label);
+  const remainder = text
+    .replace(new RegExp(`\\b${label}\\b`, 'gi'), ' ')
+    .replace(pattern ? new RegExp(`\\b${pattern}\\b`, 'gi') : /$^/g, ' ')
+    .replace(/\b[a-z0-9-]+\.(com|net|org|co|io|ai|us)\b/gi, ' ')
+    .replace(/\b(similar|companies|company|like|to|the|a|an|and|of|for|in|with)\b/gi, ' ')
+    .replace(/[^a-z\s]/gi, ' ')
+    .trim();
+  const substantive = remainder.split(/\s+/).filter((w) => w.length >= 4);
+  if (substantive.length < 2) {
+    return { usable: false, reason: 'nothing left once the subject’s own name is removed' };
+  }
+
+  return { usable: true };
 }
 
 /* -- scale ---------------------------------------------------------------- */
@@ -727,7 +1006,11 @@ export interface SubjectArtifact {
   selected: SelectedPage[];
   pages: PageSignals[];
   pagesCrawled: number;
-  categoryQuery: { query: string; seedText: string; derivedFrom: string };
+  /**
+   * What stage 02 searches with and stage 04 seeds from. `usable: false` means
+   * neither may spend: see `assessCategoryQuery`.
+   */
+  categoryQuery: { query: string; seedText: string; derivedFrom: string; usable: boolean };
   /** How big their footprint looks from their own site map. */
   scale: Scale;
   /** Categories the site simply doesn't have. The thin-target diagnosis. */
@@ -776,7 +1059,32 @@ export async function runSubjectStage(
     );
   }
 
-  const selected = selectPages(links, effectiveDomain, opts.pageLimit ?? 12);
+  /* The homepage first, on its own, so its navigation can inform which other
+     pages are worth a credit. No extra API call: the homepage was always going
+     to be scraped, and the second call for it below is served from cache. */
+  let navHints: NavHint[] = [];
+  const homeLink = links.find((l) => isHome(l.url, effectiveDomain));
+  if (homeLink) {
+    const homeScrape = await scrape(cache, ledger, homeLink.url, now);
+    if (homeScrape.ok) {
+      navHints = navLinksFrom(homeScrape.markdown, effectiveDomain);
+      if (navHints.length > 0) {
+        notes.push(
+          `read ${navHints.length} link(s) from the homepage's own navigation — the labels there ` +
+            'beat a path guess on a site whose slugs were never renamed'
+        );
+      }
+    }
+  }
+
+  const selected = selectPages(links, effectiveDomain, opts.pageLimit ?? 12, navHints);
+  const fromNav = selected.filter((p) => p.matched.startsWith('nav:'));
+  if (fromNav.length > 0) {
+    notes.push(
+      `${fromNav.length} page(s) selected by nav label rather than path: ` +
+        fromNav.map((p) => `${new URL(p.url).pathname} (${p.matched})`).join(', ')
+    );
+  }
 
   /* Scraped concurrently. Twelve pages in series was 48 seconds of a
      125-second run — see lib/concurrency.ts. Order is preserved so the
@@ -795,6 +1103,7 @@ export async function runSubjectStage(
           systemsNamed: [],
           aiTermsFound: [],
           roleLines: [],
+          rosterTitles: [],
           skipped: result.skipped ?? `scrape returned no markdown (status ${result.statusCode ?? '?'})`,
         };
       }
@@ -831,15 +1140,31 @@ export async function runSubjectStage(
     );
   }
 
+  const supplied = opts.categoryQueryOverride
+    ? assessCategoryQuery(opts.categoryQueryOverride, effectiveDomain)
+    : null;
   const categoryQuery = opts.categoryQueryOverride
     ? {
         query: opts.categoryQueryOverride,
         seedText: opts.categoryQueryOverride,
-        derivedFrom: 'supplied on the command line',
+        derivedFrom: supplied!.usable
+          ? 'supplied on the command line'
+          : `supplied on the command line — unusable: ${supplied!.reason}`,
+        usable: supplied!.usable,
       }
     : withScale;
   if (opts.categoryQueryOverride) {
     notes.push(`category query overridden; derived query would have been: "${withScale.query}"`);
+  }
+  /* Loud, because the two stages this gates are the expensive half of the run
+     and the ones whose output a reader takes at face value. */
+  if (!categoryQuery.usable) {
+    notes.push(
+      `NO USABLE CATEGORY: ${categoryQuery.derivedFrom.replace(/^.*unusable: /, '')}. ` +
+        'Peer discovery and the demand pull are skipped rather than searched with this — ' +
+        'a query that describes the subject retrieves the subject. Re-run with --category ' +
+        'naming what they do and for whom, in the shape "scale, ownership, buyer".'
+    );
   }
 
   return {

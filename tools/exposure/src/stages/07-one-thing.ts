@@ -282,6 +282,7 @@ export interface OneThingProblem {
     | 'fork_same_branches'
     | 'fork_hedge'
     | 'non_verified_in_email'
+    | 'internal_only_citation'
     | 'unknown_peer'
     | 'peer_fit_missing'
     | 'null_incomplete'
@@ -508,7 +509,21 @@ export function validateOneThing(
   for (const id of cited) {
     const claim = byId.get(id);
     if (!claim) p('claimIds', 'unknown_claim_id', `no claim ${id}`);
-    else evidence.push(claim.statement);
+    else {
+      /* Marked internal means it is not in the client's register, so a
+         citation to it points at a row the reader cannot see. The report
+         itself says these "should not be in anything handed over" — this is
+         what makes that true. */
+      if (claim.internalOnly) {
+        p(
+          'claimIds',
+          'internal_only_citation',
+          `"${id}" is a research signal, not for the client: it is kept out of the register, so citing it ` +
+            `points the reader at nothing. Make the point from a claim they can see, or drop it`
+        );
+      }
+      evidence.push(claim.statement);
+    }
   }
   const haystack = evidence.join(' ');
 
@@ -691,6 +706,8 @@ BUYER FIT. For every peer named in the claims, say who they sell to and whether 
 
 THE EMAIL. For "recommend": 260 to 380 words. Open with the recommendation in the first sentence. Then, in one paragraph, name the other ideas you weighed and say in a clause each why this one won. Then what you would refuse. Close with the fork question, if found; otherwise with the question from the analysis that matters most. For "nothing_worth_a_call": 150 to 260 words. Say plainly that we researched and did not find a build worth their money this year, what we looked at, what we set aside and why, and the one question we would still ask. Written by the person who did the research, to the owner, the way a smart colleague writes.
 
+INTERNAL SIGNALS. A claim marked internal=yes is research for us, not for them: it is deliberately kept out of the register the client reads, so a citation to it points at a row that is not there. Let it inform your judgement and cite something else. Never cite it, in any field.
+
 THE OUTBOUND RULE. Every claim carries a status: Verified, Cited, Tool data, or Ours. The email may cite Verified claims ONLY. Cited and Tool-data claims are for the call, where we can say how we know; Ours never leaves the building unspoken. Every other field may cite any status. The check rejects an email that cites anything but Verified, so do not write one. Cite ids in parentheses after the sentence they support; they will become numbered footnotes with the source underneath. Do not thank them for filling in a form. Do not describe our process. Do not mention hiring, job adverts or careers pages. Do not attach a price or a timeline unless a Verified claim carries the figure.
 
 LINKEDIN. Set the linkedin field to null. It is only written for cold outreach, and the audience block below says so when that is what this is.
@@ -739,6 +756,7 @@ export function buildOneThingPrompt(args: {
       `id=${c.id}`,
       `status=${claimStatus(c).label}`,
       `tier=${c.tier}`,
+      c.internalOnly ? 'internal=yes' : null,
       c.peerName ? `peer=${c.peerName}` : null,
       c.observedAt ? `dated=${c.observedAt}` : null,
     ].filter(Boolean);

@@ -705,6 +705,15 @@ async function report(argv: string[]): Promise<void> {
   } else if (subject.pagesCrawled === 0) {
     stageNotes.push('stage 02 skipped: no subject pages crawled, so no category description to search with');
     console.error('[02/07] peers — SKIPPED (no subject content to derive a category from)');
+  } else if (subject.categoryQuery.usable === false) {
+    /* Searching with a query that describes the subject retrieves the subject.
+       Skipping costs the report a section; searching costs the report its
+       credibility, and bills for it. See assessCategoryQuery. */
+    stageNotes.push(
+      'stage 02 skipped: no usable category query, so there was nothing to search for peers with. ' +
+        'Re-run with --category naming what they do and for whom.'
+    );
+    console.error('[02/07] peers — SKIPPED (no usable category query; re-run with --category)');
   } else {
     console.error('[02/07] peers — Exa category search, at the subject’s own scale');
     try {
@@ -826,6 +835,15 @@ async function report(argv: string[]): Promise<void> {
   if (!gate04.ok) {
     stageNotes.push(`stage 04 skipped: ${gate04.missing.join(', ')} missing`);
     console.error(`[04/07] demand — SKIPPED (${gate04.missing.join(', ')} missing)`);
+  } else if (subject.categoryQuery.usable === false) {
+    /* The same gate as stage 02, for the same reason and one more: the seed
+       terms come from this string, so an unusable category buys keyword volume
+       for a word like "similar" and prints it as demand data. */
+    stageNotes.push(
+      'stage 04 skipped: no usable category query, so any keyword seeded from it would measure ' +
+        'demand for the wrong thing.'
+    );
+    console.error('[04/07] demand — SKIPPED (no usable category query; re-run with --category)');
   } else {
     console.error('[04/07] demand — DataForSEO Labs, pull date stamped inline');
     try {
