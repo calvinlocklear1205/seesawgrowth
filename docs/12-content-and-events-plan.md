@@ -124,6 +124,98 @@ a this-quarter item.** Get on the call-for-speakers list for the 2027 editions o
 Austin and Denver events now. A speaking slot is worth substantially more than a booth,
 and costs less.
 
+### 2.4 Which other sectors' lists to borrow — and the test that decides
+
+The instinct to widen beyond hospice is right; there are three or four more lists worth
+renting. But the sector is the wrong unit to reason about, and picking by sector is how
+this goes wrong. **The test is not "is this healthcare" or even "is this in our wedge." It
+is: does this list's audience own care operations, and does one of our four proof points
+map to what they do?**
+
+That produces two distinct failure modes, and the first one is counterintuitive enough to
+be worth the space.
+
+**Failure mode 1 — right sector, wrong audience.** Dialysis is squarely in the wedge.
+Rendevor maps to it, and Strive, DaVita, US Renal Care and Innovative Renal Care are all
+already on the lists in `03` and `11`. But almost every obvious dialysis channel reaches
+**clinicians and researchers, not operators**:
+
+| Channel | Audience | Verdict |
+|---|---|---|
+| American Society of Nephrology | Nephrologists and kidney researchers | Skip — wrong buyer |
+| National Kidney Foundation Spring Clinical | Clinicians; CE-focused sessions | Skip — wrong buyer |
+| Renal Physicians Association | Renal physicians. *Does* sell "Industry Sponsored Webinars" | Skip — sells to you, but the room is clinicians |
+| Annual Dialysis Conference | Clinical dialysis audience | Skip — wrong buyer **and** wrong price: published tiers run $35k for swag, $40k conference app, $50k welcome reception, $100k Elite Tier 1 |
+
+RPA is the trap in that table: it will happily sell a sponsored webinar, and the audience
+is still wrong. Buying it would look like progress and produce nothing.
+
+**Where the dialysis *operator* audience actually is** — these are the ones to approach:
+
+- **NRAA / Renal Healthcare Association** — the cleanest fit found. Runs "Webinar
+  Wednesdays" for members, with topics that are explicitly administrative and operational
+  (QAPI, integrated care, water treatment, cost reports, CDC NHSN reporting, advocacy)
+  rather than clinical, and it has corporate sponsor tiers. **This is the dialysis
+  equivalent of Hospice News.**
+- **Renal Exchange — Industry Spotlight** — a sponsored-webinar programme whose back
+  catalogue runs on reimbursement, coverage, anemia management and accreditation. Business
+  topics, sponsor integration built in.
+- **Nephrology Business Leadership University** — explicitly branded around nephrology
+  *business* leadership. `(verify)` whether a formal sponsored-webinar product exists, or
+  whether the play is event sponsorship.
+
+**Specialty pharmacy — the same pattern, and NASP is the answer.** The HPS "5x faster
+medication approvals" number is SeeSaw's strongest proof and specialty pharmacy is where
+it lands hardest. **NASP** runs sponsor-presented webinars on operator topics — specialty
+pharmacy benchmarks, "reevaluating the specialty pharmacy operating model" — with Pfizer,
+Cencora, Cold Chain Technologies and Fairview Pharmacy Solutions as precedent sponsors.
+Those are executive topics, not dispensing-pharmacist topics. `(verify)` Asembia, Drug
+Channels Institute and Specialty Pharmacy Continuum — all plausible, none confirmed
+operator-facing from the sources read.
+
+**Failure mode 2 — wrong sector entirely, which is where wearables sit.** Consumer
+wearables and digital fitness fail all three filters. The buyer is a consumer product or
+device company, not a care operator. The problem is engagement, retention and consumer app
+UX, not clinical workflow. And none of the four proof points map — Diet ID is the nearest
+and it is still a nutrition assessment tool, not a device. It is also a market where
+consumer product studios compete hard and SeeSaw has no differentiated claim. Borrowing
+that list would fill the funnel with the wrong conversations, which is worse than an empty
+funnel because it costs the same and teaches the wrong lesson about what works.
+
+**But there is a defensible version of the same idea, and it is worth naming:** not
+wearables, but **the operational workflow around remote monitoring data**. Who reviews the
+alert, what happens when a threshold trips, how the care team acts, what the reviewer
+queue looks like. That is care operations, the proof points map cleanly, and it is already
+visible in the target list — cliexa is built on it, InnovAge names RPM in its stated
+direction, and DaVita's home-dialysis "connected cyclers" are exactly this problem at
+scale. It also lands directly on the SB 26-189 human-review duty in `11` §1. **Sell that
+through the care-operations channels above, never through device or wearables channels** —
+same subject matter, completely different room.
+
+**One structural opportunity worth exploiting.** Hospice News and Home Health Care News
+sit alongside **Skilled Nursing News** and **Behavioral Health Business** in the same
+publisher — Aging Media, now operating under **Arrowfly**, itself the new name for WTWH
+Media (40+ B2B brands across several industries). Four adjacent ICP lists, one commercial
+relationship. Do not buy a single webinar as a one-off: **negotiate the portfolio**, and
+ask specifically about their "Clara" reporting product, which they market as giving
+partners visibility into **lead quality** rather than just registration counts. Lead
+quality is the metric that matters under §8; if it is real, it is worth more than a
+discount.
+
+**Two more lists worth a look once the first webinar has run:**
+
+- **National PACE Association** — small, precise, and InnovAge plus Colorado PACE (a Care
+  Synergy affiliate) are both already on the `11` list. A tiny audience, but almost every
+  member is an ICP.
+- **Value-based care and ACO channels** (NAACOS and similar) — reaches the care-management
+  buyer, which is where Carina and Colorado Access sit. `(verify)` sponsorship products.
+
+**What to skip in this category, stated plainly:** clinical societies in any sector (wrong
+buyer, however good the sector), consumer wearables and digital fitness (wrong buyer and
+no proof mapping), generic health IT such as HIMSS or Becker's (the buyer is a
+health-system CIO, above SeeSaw's band, and the price reflects it), and generic "digital
+health" audiences (founders and investors, not operators).
+
 ## 3. Tier 2 — owned formats, small and high-conversion
 
 ### 3.1 Executive roundtables, 8–12 people. Highest conversion of anything here.
@@ -232,7 +324,9 @@ Named explicitly so these do not get re-proposed each quarter:
 
 | When | Do | Blocks on Decision #1? |
 |---|---|---|
-| **Now** | Contact Hospice News / HHCN for webinar pricing and slots | No — booking, not publishing |
+| **Now** | Contact Arrowfly (Hospice News / HHCN / Skilled Nursing News / Behavioral Health Business) — price the **portfolio**, not one webinar, and ask about Clara lead-quality reporting | No — booking, not publishing |
+| **Now** | Contact NRAA / Renal Healthcare Association about Webinar Wednesdays sponsorship — the dialysis operator channel | No |
+| **Now** | Contact NASP about a sponsor-presented webinar — the specialty pharmacy operator channel, where the HPS 5x number lands hardest | No |
 | **Now** | Join Prime Health; get on the 2027 Challenge judge list | No |
 | **Now** | Get on 2027 calls-for-speakers for HHCN FUTURE (Austin) and the Denver ASCN event | No |
 | **Now** | Ask Revelstoke about co-hosting a portfolio roundtable | No — the Frontier hook stands on its own |
