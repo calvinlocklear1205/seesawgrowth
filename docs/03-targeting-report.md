@@ -198,6 +198,56 @@ Havencrest), Formula Wellness (Dallas TX, Trive), BrightView (Shore), The Oncolo
 Panoramic Health (Audax), Innovative Renal Care, AvodahMed (Dallas TX, $7M seed), Vironix Health
 (Austin TX), ArcheHealth (TX, THR-backed $6.7M seed), Foodsmart / Bitewell (Diet ID analogs).
 
+### Warm doors — relationship-sourced, added after the original pull
+
+*The list above is a 2026-07-22 snapshot. Entries here came from existing relationships
+rather than the research pass, and are dated individually.*
+
+**Ally Medical Emergency Room** [TX-Austin] (allymedical.com) — *added 2026-09-09. Calvin
+worked with the CEO in Austin.* Physician-owned freestanding ER operator, HQ 5525 Burnet
+Rd, Austin. Eight Austin-area sites plus Dallas-Fort Worth and Houston-suburb locations.
+**CEO Emmanuel Colliot**; CMO Dr. Jeremy Kanter; `(verify)` COO Jori Short and the
+CFO/President names, which come from data vendors rather than the company.
+
+**Trigger:** active multi-site expansion. Cedar Park opening announced 2026-06-30
+(GlobeNewswire); Liberty Hill announced 2026-06-05 for winter. Rapid site growth is a
+standardisation problem — intake consistency, staffing and scheduling, throughput
+reporting across sites — the same shape as The Care Team's multi-state integration pain in
+`11` §2.
+
+**Fit: off-wedge, and worth being honest about that.** Freestanding ER is acute and
+episodic, not care operations. None of the four proof points maps directly — HPS is
+medication approvals, Rendevor dialysis analytics, Diet ID nutrition, Kountable fintech.
+This is a **relationship-sourced account, not a wedge account**, and it should be tiered
+on that basis rather than promoted because the door is warm.
+
+**The one transferable thread is billing and prior authorisation.** Their own homepage
+leads with billing transparency, in-network rate messaging under Texas regulation, and a
+Care Relief financial assistance programme; they publish chargemasters. Freestanding ER
+billing in Texas is genuinely hard — No Surprises Act, balance-billing disputes, imaging
+prior auth. HPS's "5x faster medication approvals" is an approval-workflow win, which is
+the same *shape* of problem in a different vertical. That is the angle most likely to
+produce a case study that transfers back to the wedge. They also already ship
+patient-facing digital (`my.allymedical.com` online check-in), so a product surface and
+some roadmap ownership probably exist.
+
+**Verify the parent before spending pursuit time.** EMS1 describes Ally Medical as "a
+subsidiary of **USA Emergency Centers**." If that holds, technology decisions may sit at
+the parent rather than in Austin — the same trap as Guardian Pharmacy in `11` §2, where a
+warm local door turned out not to be the buyer. Establish this early; a warm CEO
+relationship does not help if the roadmap is owned elsewhere.
+
+**How to use it.** Treat it like Assured Senior Living in `11` §3: lead with a
+conversation, not a pitch. Austin is Jeff's territory, the CEO relationship is real, and a
+multi-site operator in the middle of an expansion is a good candidate to co-host or attend
+the Austin roundtable in `12` §3.1.
+
+**The discipline note.** Two relationship-sourced accounts outside the wedge (Assured,
+Ally) is fine. A pattern of them is drift, and drift is how a studio ends up back in the
+small-jobs problem `00-status.md` says SeeSaw is trying to escape. Decision #1 is still
+open, so adding off-position accounts also quietly pre-commits against it. Take warm doors
+when they appear; do not go looking for them in place of the wedge.
+
 ## 4. The repeatable monthly targeting playbook
 
 What actually worked (repeat monthly; ~2-3 hours or one standing agent task):
