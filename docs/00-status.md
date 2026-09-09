@@ -1,6 +1,6 @@
 # Current status
 
-*Last updated 2026-09-03.*
+*Last updated 2026-09-08.*
 
 > **The free offer was re-cut on 2026-08-31, after the team landed on its intent.** The page
 > now leads with the 45-minute session; shortly after the call the lead gets a report of the
@@ -54,6 +54,20 @@ a contractor network, shipping software as a combined product + design + enginee
 avoid absorbing endless small jobs, and diversify into owned SaaS products. Does staff aug,
 actively trying to do less of it.
 
+## Tracked work
+
+Execution is now tracked in GitHub issues, starting 2026-09-09:
+
+| # | Issue | Blocks / depends |
+|---|---|---|
+| [#2](https://github.com/seesawlabs/seesawgrowth/issues/2) | Export LinkedIn connections and build the connection-mapping script | Prerequisite for every named-account issue |
+| [#3](https://github.com/seesawlabs/seesawgrowth/issues/3) | Strive Health: run the account motion end to end (pilot) | Depends on #2 for the connection check; the template for every other Tier A account |
+| [#4](https://github.com/seesawlabs/seesawgrowth/issues/4) | Price the borrowed-list channels: Arrowfly, NRAA, NASP | Independent — pricing is not publishing, so it does not wait on Decision #1 |
+| [#5](https://github.com/seesawlabs/seesawgrowth/issues/5) | Assured Senior Living: conversation with Francis and Brian | Independent and warm — the only door needing no cold opener |
+| [#6](https://github.com/seesawlabs/seesawgrowth/issues/6) | Revelstoke Frontier: Max Delahanty and Wade Lowder | Depends on #2 for the connection check; one relationship reaching a dozen ICP companies |
+| [#7](https://github.com/seesawlabs/seesawgrowth/issues/7) | Prime Health: join, and get on the 2027 Innovation Challenge judge list | Independent — timing-sensitive, the 2026 window has closed |
+| [#8](https://github.com/seesawlabs/seesawgrowth/issues/8) | Re-verify the design-partner list in `03` — the Fuego UX drift probably isn't isolated | Independent — Slide UX is #5 in the `03` top ten and needs checking first |
+
 ## Workstream state
 
 | Workstream | Owner | State |
@@ -80,7 +94,16 @@ actively trying to do less of it.
 | Internal AI-ops case study | Calvin | Not started |
 | Anthropic Select application | Calvin | Not started |
 | Monthly targeting playbook | Calvin | Defined, not yet running as a cadence |
+| Colorado ABM list (`11-colorado-targeting-report.md`) | Calvin | **Written 2026-09-08 with Firecrawl, Exa, Perplexity and DataForSEO. 24 named accounts, Colorado referral partners, and an outreach angle the Texas list doesn't have: SB 26-189 replaced the Colorado AI Act on 2026-05-14 and its ADMT duties (notice, 30-day adverse-outcome explanation, meaningful human review) land 2027-01-01 as interface work. Top door is Revelstoke Capital (Denver healthcare PE) whose Revelstoke Frontier AI programme launched 2026-06. Best hospice target is Care Synergy, a Denver shared-back-office network over seven affiliates, which only semantic search surfaced** |
+| └ Partner-channel expansion | Calvin | **Added 2026-09-08 to `11` §3: marketing/brand agencies assessed and mostly rejected (wrong budget, wrong buyer, feeds the small-jobs problem) with Cactus the one exception, and partly competitive since it created Grit Digital Health. The recommended category instead is platform partner programmes — Innovaccer Gravity, already live at both Carina and Colorado Access, explicitly monetises partner IP through a marketplace, which is a product distribution channel rather than a referral one. Rocky Mountain implementation partners for Innovaccer, MatrixCare and Epic still need naming** |
+| └ Correction to `03` | Calvin | **`03` §2 lists Fuego UX as a design/UX-only studio. As of 2026-09-08 their services page advertises development — they are competitive, not a referral partner. The same drift may affect other design-partner names in `03`; that list needs a re-verification pass by reading services pages rather than directory listings** |
+| └ LinkedIn connection mapping | Calvin | **Blocked on Calvin's LinkedIn `Connections.csv` export (Settings → Data Privacy → Get a copy of your data). Scraping is off the table; the export is first-degree only, so second-degree paths need Sales Navigator or a manual pass. Script not yet written — see `11` §5** |
+| Research MCP servers (`.mcp.json`) | Calvin | **Added 2026-09-08. Firecrawl, Exa, Perplexity and DataForSEO were configured as project MCP servers reading the API keys already present in the environment. Before this the keys were set but no server was declared, so every session silently fell back to plain web search. Config holds `${VAR}` references only, no secrets** |
+| Content, events & programmes (`12-content-and-events-plan.md`) | Jeff + Calvin | **Written 2026-09-08. Recommends borrowed distribution over owned content. Top item is a sponsored Hospice News / HHCN webinar — their published averages are ~125 registrants for a product-focused session at 30-40% live attendance, and the registrant list feeds the LinkedIn motion in `11`. Second is judging the Prime Health Innovation Challenge rather than running a competition (2026 judge applications closed; target the 2027 April-October cycle). Roundtables co-hosted with Revelstoke or vcfo are the highest-conversion owned format. Booking and applications can start before Decision #1; publishing cannot** |
+| └ Sector selection for borrowed lists | Calvin | **Added 2026-09-08 to `12` §2.4. The test is whether a list's audience owns care operations, not whether the sector is in the wedge. Dialysis is in the wedge but its obvious channels (ASN, NKF, RPA, Annual Dialysis Conference) are clinical — the operator channels are NRAA/Renal Healthcare Association and Renal Exchange. Specialty pharmacy operator channel is NASP. Wearables fail all filters; the defensible adjacent is remote-monitoring workflow sold through care-ops channels. Arrowfly (ex-Aging Media, ex-WTWH) owns four adjacent ICP titles — negotiate as a portfolio** |
+| └ Giving away build hours | Calvin | **Recommended against in the stated form — selects for companies without budget and prices the pod down. Award the paid Roadmap (`04`) instead, inside Prime Health's competition rather than an in-house one. See `12` §5** |
+| Assured Senior Living (warm, `11` §3) | Calvin + Jeff | **Added 2026-09-08. Founders Brian Turner and Francis LeGasse Jr. are known to Calvin. 30+ residential homes across Denver metro — assisted living, memory care and TBI supportive living. Three asks in order: (1) their pharmacy, hospice and home-health partners, which map onto Guardian, Care Synergy, Bristol and InnovAge on the target list; (2) a slot on LeGasse's podcast — he is an AgeTech thought leader and NIC speaker, so this is borrowed distribution inside a friendship; (3) a small instrumented build published as the metric-led case study, since they are already a public reference for Serenity Engage. Do not lead with a pod pitch** |
 | Referral systematization | Jeff | Not started — top 10 targets named |
-| Founder LinkedIn | Jeff + Calvin | Not started |
-| Austin events & exec dinners | Jeff | Not started |
+| Founder LinkedIn | Jeff + Calvin | Not started — Colorado target list and three openers now drafted in `11` §4 |
+| Austin events & exec dinners | Jeff | Not started — format, co-hosts and topics now specified in `12` §3.1. HHCN FUTURE (Austin, late Aug) and the Denver ASCN event are 2027 planning items; both 2026 editions have passed |
 | Fractional growth hire | Jeff | Not started |
