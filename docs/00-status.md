@@ -68,6 +68,23 @@ Execution is now tracked in GitHub issues, starting 2026-09-09:
 | [#7](https://github.com/seesawlabs/seesawgrowth/issues/7) | Prime Health: join, and get on the 2027 Innovation Challenge judge list | Independent — timing-sensitive, the 2026 window has closed |
 | [#8](https://github.com/seesawlabs/seesawgrowth/issues/8) | Re-verify the design-partner list in `03` — the Fuego UX drift probably isn't isolated | Independent — Slide UX is #5 in the `03` top ten and needs checking first |
 
+### The Tier A ten — one issue each
+
+Every account in `11` §2 Tier A now has its own issue. All depend on [#2](https://github.com/seesawlabs/seesawgrowth/issues/2) for the connection check; [#3](https://github.com/seesawlabs/seesawgrowth/issues/3) is the pilot whose five steps the rest reuse.
+
+| # | Account | The angle |
+|---|---|---|
+| [#3](https://github.com/seesawlabs/seesawgrowth/issues/3) | Strive Health | Closest match to the Rendevor proof. Pilot of the repeatable motion |
+| [#10](https://github.com/seesawlabs/seesawgrowth/issues/10) | Care Synergy | Shared back office over seven affiliates — one engagement reaches all. Qualify budget hard |
+| [#11](https://github.com/seesawlabs/seesawgrowth/issues/11) | DispatchHealth | The 2026-07-31 B2B pivot — a platform being repositioned as a product |
+| [#12](https://github.com/seesawlabs/seesawgrowth/issues/12) | SonderMind | Two doors: the FDA TEMPO app, or the 16k-provider network |
+| [#13](https://github.com/seesawlabs/seesawgrowth/issues/13) | Carina Health Network | Innovaccer across 400 sites in March — the textbook adjacent-workflow opener |
+| [#14](https://github.com/seesawlabs/seesawgrowth/issues/14) | Colorado Access | Prior auth. Where the HPS 5x number needs no translation |
+| [#15](https://github.com/seesawlabs/seesawgrowth/issues/15) | Swisslog Healthcare | Dual-use. Verify where the roadmap is owned before spending pursuit time |
+| [#16](https://github.com/seesawlabs/seesawgrowth/issues/16) | InnovAge | PACE, public company. Slower procurement — plan for it |
+| [#17](https://github.com/seesawlabs/seesawgrowth/issues/17) | nVoq | Dual-use, partner read preferred. Warm and local |
+| [#18](https://github.com/seesawlabs/seesawgrowth/issues/18) | The Care Team | Route through Revelstoke ([#6](https://github.com/seesawlabs/seesawgrowth/issues/6)), not the front door |
+
 ## Workstream state
 
 | Workstream | Owner | State |
