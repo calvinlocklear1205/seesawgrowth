@@ -54,6 +54,17 @@ a contractor network, shipping software as a combined product + design + enginee
 avoid absorbing endless small jobs, and diversify into owned SaaS products. Does staff aug,
 actively trying to do less of it.
 
+## Tracked work
+
+Execution is now tracked in GitHub issues, starting 2026-09-09:
+
+| # | Issue | Blocks / depends |
+|---|---|---|
+| [#2](https://github.com/seesawlabs/seesawgrowth/issues/2) | Export LinkedIn connections and build the connection-mapping script | Prerequisite for every named-account issue |
+| [#3](https://github.com/seesawlabs/seesawgrowth/issues/3) | Strive Health: run the account motion end to end (pilot) | Depends on #2 for the connection check; the template for every other Tier A account |
+| [#4](https://github.com/seesawlabs/seesawgrowth/issues/4) | Price the borrowed-list channels: Arrowfly, NRAA, NASP | Independent — pricing is not publishing, so it does not wait on Decision #1 |
+| [#5](https://github.com/seesawlabs/seesawgrowth/issues/5) | Assured Senior Living: conversation with Francis and Brian | Independent and warm — the only door needing no cold opener |
+
 ## Workstream state
 
 | Workstream | Owner | State |
