@@ -64,6 +64,9 @@ Execution is now tracked in GitHub issues, starting 2026-09-09:
 | [#3](https://github.com/seesawlabs/seesawgrowth/issues/3) | Strive Health: run the account motion end to end (pilot) | Depends on #2 for the connection check; the template for every other Tier A account |
 | [#4](https://github.com/seesawlabs/seesawgrowth/issues/4) | Price the borrowed-list channels: Arrowfly, NRAA, NASP | Independent — pricing is not publishing, so it does not wait on Decision #1 |
 | [#5](https://github.com/seesawlabs/seesawgrowth/issues/5) | Assured Senior Living: conversation with Francis and Brian | Independent and warm — the only door needing no cold opener |
+| [#6](https://github.com/seesawlabs/seesawgrowth/issues/6) | Revelstoke Frontier: Max Delahanty and Wade Lowder | Depends on #2 for the connection check; one relationship reaching a dozen ICP companies |
+| [#7](https://github.com/seesawlabs/seesawgrowth/issues/7) | Prime Health: join, and get on the 2027 Innovation Challenge judge list | Independent — timing-sensitive, the 2026 window has closed |
+| [#8](https://github.com/seesawlabs/seesawgrowth/issues/8) | Re-verify the design-partner list in `03` — the Fuego UX drift probably isn't isolated | Independent — Slide UX is #5 in the `03` top ten and needs checking first |
 
 ## Workstream state
 
